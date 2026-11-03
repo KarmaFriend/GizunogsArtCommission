@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Gizunog's Art Commission</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Zen Kaku Gothic New', sans-serif;
+    --ink-rgb: 43,37,31; --ink: #231f1b; --paper: #f7f3ec; --bar: rgba(250,247,241,0.78);
+    --card: rgba(255,255,255,0.78); --surface: #fffdf9; --blend: multiply; --ridge: rgba(255,255,255,0.9); }
+  body[data-theme="dark"] { --ink-rgb: 235,231,224; --ink: #f1ece4; --paper: #14161b; --bar: rgba(18,20,25,0.8);
+    --card: rgba(255,255,255,0.055); --surface: #1b1e24; --blend: screen; --ridge: rgba(255,255,255,0.045); }
+  a { color: var(--ink); text-decoration: none; }
+  a:hover { color: var(--ink); opacity: 0.7; }
+  input, textarea, select, button { font-family: inherit; }
+  ::selection { background: rgba(var(--ink-rgb),0.2); }
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(var(--ink-rgb),0.22); border-radius: 999px; }
+  @keyframes giz-blink { 0%,92%,100% { transform: scaleY(1) } 96% { transform: scaleY(0.08) } }
+  @keyframes giz-in { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+  @keyframes giz-fade { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes giz-in-alt { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: none } }
+  @keyframes giz-fade-alt { from { opacity: 0 } to { opacity: 1 } }
+  @keyframes giz-pulse { 0%,100% { box-shadow: 0 0 0 4px oklch(0.68 0.15 148 / 0.18) } 50% { box-shadow: 0 0 0 7px oklch(0.68 0.15 148 / 0.06) } }
+  @keyframes giz-current { 0% { -webkit-mask-position: -640px 0; mask-position: -640px 0 } 100% { -webkit-mask-position: 2600px 0; mask-position: 2600px 0 } }
+  @keyframes giz-current-v { 0% { -webkit-mask-position: 0 2600px; mask-position: 0 2600px } 100% { -webkit-mask-position: 0 -640px; mask-position: 0 -640px } }
+  @keyframes giz-wipe { 0% { clip-path: inset(0 0 0 0) } 100% { clip-path: inset(0 0 100% 0) } }
+  @keyframes giz-word { 0% { opacity: 0; transform: translateY(10px) } 30% { opacity: 1; transform: none } 100% { opacity: 1; transform: none } }
+</style>
+</helmet>
+
+<sc-if value="{{ curtain }}" hint-placeholder-val="{{ true }}">
+  <div style="position: fixed; inset: 0; z-index: 90; background: var(--paper); display: flex; align-items: center; justify-content: center; animation: giz-wipe 620ms cubic-bezier(.76,0,.24,1) 900ms forwards;">
+    <div style="text-align: center; animation: giz-word 700ms cubic-bezier(.22,1,.36,1) both;">
+      <div style="font-family: 'Instrument Serif', serif; font-size: 68px; letter-spacing: 0.04em; color: var(--ink);">Welcome to <span style="color: oklch(0.60 0.18 22);">Gizunog's</span> art corner!</div>
+      <div style="margin-top: 16px; font-family: 'Instrument Serif', serif; font-style: italic; font-size: 27px; letter-spacing: 0.01em; color: rgba(var(--ink-rgb),0.8);">What are you looking for today?</div>
+    </div>
+  </div>
+</sc-if>
+
+<div style="min-height: 100vh; background: {{ bg }}; transition: background 800ms cubic-bezier(.22,1,.36,1); position: relative;">
+  <div style="position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;">
+    <div style="position: absolute; top: -60%; left: -60%; width: 220%; height: 220%; transform: rotate(45deg); opacity: 0.5; background-image: linear-gradient(var(--ridge) 1px, transparent 1px), linear-gradient(90deg, var(--ridge) 1px, transparent 1px), linear-gradient(rgba(var(--ink-rgb),0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(var(--ink-rgb),0.075) 1px, transparent 1px); background-size: 15px 15px, 15px 15px, 15px 15px, 15px 15px; background-position: 0 0, 0 0, 1px 1px, 1px 1px;"></div>
+    <div style="position: absolute; top: -60%; left: -60%; width: 220%; height: 220%; transform: rotate(45deg); mix-blend-mode: var(--blend); background-image: {{ mosaicLines }}; background-size: 15px 15px, 15px 15px; background-position: 0 0, 0 0; -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.35) 8%, #000 14%, rgba(0,0,0,0.35) 20%, transparent 28%); mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.35) 8%, #000 14%, rgba(0,0,0,0.35) 20%, transparent 28%); -webkit-mask-size: 620px 100%; mask-size: 620px 100%; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; opacity: 0.3; animation: giz-current 9s linear infinite;"></div>
+    <div style="position: absolute; top: -60%; left: -60%; width: 220%; height: 220%; transform: rotate(45deg); mix-blend-mode: var(--blend); background-image: {{ mosaicLines }}; background-size: 15px 15px, 15px 15px; -webkit-mask-image: linear-gradient(0deg, transparent 0%, rgba(0,0,0,0.3) 9%, #000 15%, rgba(0,0,0,0.3) 21%, transparent 30%); mask-image: linear-gradient(0deg, transparent 0%, rgba(0,0,0,0.3) 9%, #000 15%, rgba(0,0,0,0.3) 21%, transparent 30%); -webkit-mask-size: 100% 620px; mask-size: 100% 620px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; opacity: 0.28; animation: giz-current-v 13s linear infinite;"></div>
+  </div>
+  <div style="position: relative; z-index: 1;">
+  <header style="position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; padding: 20px 32px; background: var(--bar); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(var(--ink-rgb),0.09);">
+    <button onClick="{{ goHome }}" style="background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); font-family: 'Instrument Serif', serif; font-size: 23px; letter-spacing: 0.04em; white-space: nowrap;">Gizunog's art corner</button>
+    <nav style="display: flex; gap: 10px; flex-wrap: nowrap; white-space: nowrap; justify-content: center; font-size: 16px; letter-spacing: 0.01em;">
+      <sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+        <button onClick="{{ n.go }}" style-hover="background: rgba(var(--ink-rgb),0.09)" style="background: {{ n.pill }}; border: 0; padding: 9px 14px; border-radius: 10px; white-space: nowrap; cursor: pointer; transition: background 260ms, color 260ms; font-family: inherit; font-size: 16px; letter-spacing: 0.01em; color: {{ n.color }}; border-bottom: 1px solid {{ n.line }}; transition: color 300ms, border-color 300ms;" style-hover="color: #0d0b09">{{ n.label }}</button>
+      </sc-for>
+    </nav>
+    <div style="display: flex; justify-content: flex-end; align-items: center; min-width: 0;">
+      <button onClick="{{ toggleTheme }}" onPointerDown="{{ pressOn }}" onPointerUp="{{ pressOff }}" onPointerLeave="{{ pressOff }}" title="Toggle dark mode" aria-label="Toggle dark mode" style-hover="box-shadow: inset 0 2px 5px rgba(var(--ink-rgb),0.14), 0 0 0 5px rgba(var(--ink-rgb),0.06)" style="position: relative; display: block; flex: 0 0 auto; width: 76px; height: 38px; padding: 0; box-sizing: border-box; border: 1px solid rgba(var(--ink-rgb),0.14); border-radius: 999px; background: rgba(var(--ink-rgb),0.055); backdrop-filter: blur(10px); cursor: pointer; box-shadow: inset 0 2px 5px rgba(var(--ink-rgb),0.13), 0 0 0 0 rgba(var(--ink-rgb),0); transition: box-shadow 320ms cubic-bezier(.34,1.56,.64,1), background 400ms, border-color 400ms; -webkit-tap-highlight-color: transparent;">
+        <span style="position: absolute; left: 11px; top: 50%; transform: translateY(-50%); display: flex; color: rgba(var(--ink-rgb),0.55); opacity: {{ trackSunOp }}; transition: opacity 380ms ease;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"></circle>
+            <path d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M5.1 5.1l1.9 1.9M17 17l1.9 1.9M5.1 18.9l1.9-1.9M17 7l1.9-1.9"></path>
+          </svg>
+        </span>
+        <span style="position: absolute; right: 11px; top: 50%; transform: translateY(-50%); display: flex; color: rgba(var(--ink-rgb),0.55); opacity: {{ trackMoonOp }}; transition: opacity 380ms ease;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.3 14.7A8.4 8.4 0 0 1 9.3 3.7 8.4 8.4 0 1 0 20.3 14.7z"></path>
+          </svg>
+        </span>
+        <span style="position: absolute; top: 3px; left: 3px; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--surface); box-shadow: 0 3px 8px rgba(var(--ink-rgb),0.22), inset 0 1px 0 rgba(255,255,255,0.5); transform: {{ knobTransform }}; transition: transform 460ms cubic-bezier(.34,1.56,.64,1), background 400ms;">
+          <span style="position: absolute; inset: -7px; border-radius: 50%; background: {{ knobGlow }}; transition: background 500ms ease;"></span>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true" style="position: absolute; color: {{ accent }}; opacity: {{ sunOp }}; transform: {{ sunTransform }}; transition: opacity 380ms ease, transform 520ms cubic-bezier(.34,1.56,.64,1);">
+            <circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"></circle>
+            <path d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M5.1 5.1l1.9 1.9M17 17l1.9 1.9M5.1 18.9l1.9-1.9M17 7l1.9-1.9"></path>
+          </svg>
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="position: absolute; color: {{ accent }}; opacity: {{ moonOp }}; transform: {{ moonTransform }}; transition: opacity 380ms ease, transform 520ms cubic-bezier(.34,1.56,.64,1);">
+            <path d="M20.3 14.7A8.4 8.4 0 0 1 9.3 3.7 8.4 8.4 0 1 0 20.3 14.7z"></path>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </header>
+
+  <div style="display: flex; justify-content: center; padding: 16px 32px 0;">
+    <span style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.14); background: rgba(var(--ink-rgb),0.04); font-size: 14px; color: rgba(var(--ink-rgb),0.84);">
+      <span style="flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: oklch(0.68 0.15 148); box-shadow: 0 0 0 4px oklch(0.68 0.15 148 / 0.18); animation: giz-pulse 2600ms ease-in-out infinite;"></span>
+      <span>Commissions: <strong style="font-weight: 500;">OPEN</strong> &#183; 4/5 slots available</span>
+    </span>
+  </div>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main>
+      <section style="padding: 64px 44px 30px; display: flex; flex-direction: column; align-items: center; gap: 32px;">
+        <div style="display: flex; justify-content: center; width: 100%; font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 1;">
+          <div style="height: 92px; width: 100%; max-width: 720px; overflow: hidden; position: relative; border-bottom: 2px solid {{ accent }}; transition: border-color 500ms;">
+            <div style="position: absolute; inset: 0; display: flex; flex-direction: column; transform: {{ wheel }}; transition: transform 660ms cubic-bezier(.22,1,.36,1);">
+              <sc-for list="{{ styles }}" as="s" hint-placeholder-count="6">
+                <button onClick="{{ s.pick }}" style="height: 92px; flex: 0 0 92px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; padding: 0 20px; background: none; border: 0; text-align: center; font: inherit; color: var(--ink); opacity: {{ s.dim }}; cursor: pointer; transition: opacity 400ms;" style-hover="opacity: 1">{{ s.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 18px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; text-transform: none; color: rgba(var(--ink-rgb),0.8);">
+          <button onClick="{{ next }}" style="background: none; border: 1px solid rgba(var(--ink-rgb),0.2); color: inherit; width: 28px; height: 28px; padding: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; line-height: 1; font-size: 14.5px; border-radius: 50%; cursor: pointer;" style-hover="border-color: rgba(var(--ink-rgb),0.8)">&#8593;</button>
+          <span>{{ count }}</span>
+          <button onClick="{{ prev }}" style="background: none; border: 1px solid rgba(var(--ink-rgb),0.2); color: inherit; width: 28px; height: 28px; padding: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; line-height: 1; font-size: 14.5px; border-radius: 50%; cursor: pointer;" style-hover="border-color: rgba(var(--ink-rgb),0.8)">&#8595;</button>
+          <span style="width: 46px; height: 1px; background: currentColor; opacity: 0.4;"></span>
+          <span>{{ priceLine }}</span>
+        </div>
+      </section>
+
+      <section style="padding: 12px 44px 0; animation: {{ animA }} 640ms cubic-bezier(.22,1,.36,1) both;">
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 26px;">
+          <sc-for list="{{ samples }}" as="sm" hint-placeholder-count="2">
+            <div style="display: flex; flex-direction: column; gap: 12px; width: {{ sm.w }};">
+              <div style="position: relative; height: 400px; overflow: hidden; border-radius: 12px; background: var(--card); border: 1px solid rgba(var(--ink-rgb),0.1);">
+                <div style="position: absolute; inset: 0; background: {{ sm.bg }};"></div>
+                <sc-if value="{{ sm.empty }}" hint-placeholder-val="{{ true }}">
+                  <div style="position: absolute; inset: 0; box-sizing: border-box; background-image: repeating-linear-gradient(135deg, rgba(var(--ink-rgb),0.07) 0 6px, transparent 6px 13px);"></div>
+                </sc-if>
+              </div>
+              <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 14px; padding-bottom: 9px; border-bottom: 1px solid rgba(var(--ink-rgb),0.12);">
+                <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.07em; text-transform: none; color: rgba(var(--ink-rgb),0.8);">{{ sm.note }}</span>
+                <span style="font-family: 'Instrument Serif', serif; font-size: 26px; color: var(--ink);">{{ sm.price }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <div style="height: 90px;"></div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isArt }}" hint-placeholder-val="{{ false }}">
+    <main style="padding: 52px 44px 90px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
+      <h1 style="margin: 0 0 26px; font-family: 'Instrument Serif', serif; font-size: 46px; font-weight: 400;">My art</h1>
+      <div ref="{{ gridRef }}" style="display: flex; flex-direction: column; gap: 10px; animation: {{ animG }} 520ms both;">
+        <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="1">
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+        <sc-if value="{{ sec.hasTitle }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; align-items: center; justify-content: center; gap: 18px; margin: 20px 0 2px;">
+            <div style="height: 1px; width: 90px; background: linear-gradient(to right, transparent, rgba(var(--ink-rgb),0.28));"></div>
+            <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-size: 30px; letter-spacing: 0.01em; color: rgba(var(--ink-rgb),0.86); text-align: center;">{{ sec.title }}</span>
+            <div style="height: 1px; width: 90px; background: linear-gradient(to left, transparent, rgba(var(--ink-rgb),0.28));"></div>
+          </div>
+        </sc-if>
+        <div style="display: flex; align-items: flex-start; gap: 14px; width: 100%; max-width: {{ sec.maxW }}; margin: 0 auto;">
+        <sc-for list="{{ sec.columns }}" as="col" hint-placeholder-count="4">
+        <div style="flex: 1 1 0; min-width: 0;">
+        <sc-for list="{{ col.tiles }}" as="g" hint-placeholder-count="3">
+          <div onMouseEnter="{{ g.enter }}" onMouseLeave="{{ g.leave }}" style="break-inside: avoid; margin-bottom: 14px; position: relative; overflow: hidden; border-radius: 12px; border: 1px solid rgba(var(--ink-rgb),0.1); background: var(--card); height: {{ g.height }}; transition: height 560ms cubic-bezier(.22,1,.36,1);">
+            <div style="position: absolute; inset: -30px; background: {{ g.bg }}; filter: {{ g.filter }}; transition: filter 400ms;"></div>
+            <sc-if value="{{ g.blurred }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ g.reveal }}" style="position: absolute; inset: 0; width: 100%; border: 0; background: rgba(0,0,0,0.28); color: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-family: 'Zen Kaku Gothic New', sans-serif; text-align: center; padding: 16px;">
+                <span style="font-size: 20px; letter-spacing: 0.14em; font-weight: 700;">NSFW</span>
+                <span style="font-size: 14.5px;">click to see image</span>
+              </button>
+            </sc-if>
+            <sc-if value="{{ g.empty }}" hint-placeholder-val="{{ true }}">
+              <div style="position: absolute; inset: 0; box-sizing: border-box; display: flex; align-items: flex-end; padding: 13px; background-image: repeating-linear-gradient(135deg, rgba(var(--ink-rgb),0.07) 0 6px, transparent 6px 13px);">
+                <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.05em; text-transform: none; color: rgba(var(--ink-rgb),0.78);">{{ g.note }}</span>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        </div>
+        </sc-for>
+        </div>
+        </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 30px;">
+        <button onClick="{{ pagePrev }}" style="padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.16); background: transparent; color: inherit; font-size: 14.5px; cursor: pointer; opacity: {{ prevOp }};" style-hover="border-color: rgba(var(--ink-rgb),0.78)">&#8592; Prev</button>
+        <sc-for list="{{ pages }}" as="p" hint-placeholder-count="8">
+          <button onClick="{{ p.pick }}" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid {{ p.border }}; background: {{ p.bg }}; color: inherit; font-size: 14.5px; cursor: pointer; transition: all 300ms;" style-hover="border-color: rgba(var(--ink-rgb),0.78)">{{ p.n }}</button>
+        </sc-for>
+        <button onClick="{{ pageNext }}" style="padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.16); background: transparent; color: inherit; font-size: 14.5px; cursor: pointer; opacity: {{ nextOp }};" style-hover="border-color: rgba(var(--ink-rgb),0.78)">Next &#8594;</button>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isPricing }}" hint-placeholder-val="{{ false }}">
+    <main style="padding: 52px 44px 90px; max-width: 1000px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
+      <h1 style="margin: 0 0 6px; font-family: 'Instrument Serif', serif; font-size: 46px; font-weight: 400;">Pricing and Rules</h1>
+      <p style="margin: 0 0 40px; font-size: 15px; color: rgba(var(--ink-rgb),0.8);">Final price is agreed before work begins and never changes once payment and work have started.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 18px; margin-bottom: 18px;">
+        <div style="padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.78);">Icon</div>
+          <div style="font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; padding-top: 12px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">$15</div>
+          <div style="font-size: 14px; color: rgba(var(--ink-rgb),0.72);">Stickers, emojis, profile icons</div>
+        </div>
+        <div style="padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.78);">Half Body</div>
+          <div style="font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; padding-top: 12px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">$28</div>
+          <div style="font-size: 14px; color: rgba(var(--ink-rgb),0.72);">Portrait, waist up</div>
+        </div>
+        <div style="padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.78);">Full Body</div>
+          <div style="font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; padding-top: 12px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">$50</div>
+          <div style="font-size: 14px; color: rgba(var(--ink-rgb),0.72);">Head to toe</div>
+        </div>
+        <div style="padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.78);">Background</div>
+          <div style="font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; padding-top: 12px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">$18</div>
+          <div style="font-size: 14px; color: rgba(var(--ink-rgb),0.72);">Added to any piece</div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px;">
+        <div style="padding: 24px 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; justify-content: space-between; gap: 20px;">
+            <span style="font-size: 14.5px;">Extra Half Body character</span>
+            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$18 each</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">
+            <span style="font-size: 14.5px;">Extra Full Body character</span>
+            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$30 each</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">
+            <span style="font-size: 14.5px;">Rush commission</span>
+            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">2× quoted price</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">
+            <span style="font-size: 14.5px;">Revisions after the fifth</span>
+            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$5 each</span>
+          </div>
+        </div>
+        <div style="padding: 24px 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px;">
+          <div style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.78); margin-bottom: 12px;">Complex requests</div>
+          <p style="margin: 0; font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">Unusually complex pieces are quoted case by case. We agree on the final price before the commission is accepted.</p>
+        </div>
+      </div>
+
+      <div style="margin-top: 56px; display: flex; align-items: center; gap: 18px;">
+        <h2 style="margin: 0; font-family: 'Instrument Serif', serif; font-size: 32px; font-weight: 400;">Terms &amp; scope</h2>
+        <span style="flex: 1; height: 1px; background: rgba(var(--ink-rgb),0.14);"></span>
+      </div>
+      <div style="margin: 20px 0 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+        <div style="padding: 22px 24px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; color: {{ accent }};">Payment</span>
+          <span style="font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">PayPal only. 60% upfront before work starts; the remaining 40% is due at completion, before final delivery.</span>
+        </div>
+        <div style="padding: 22px 24px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; color: {{ accent }};">Turnaround</span>
+          <span style="font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">Normally 7 business days once the brief, references and upfront payment are received. You’ll hear about key milestones or any delays.</span>
+        </div>
+        <div style="padding: 22px 24px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; color: {{ accent }};">Revisions</span>
+          <span style="font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">Five revisions are included free. Each revision after the fifth is $5.</span>
+        </div>
+        <div style="padding: 22px 24px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; color: {{ accent }};">Delivery</span>
+          <span style="font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">A high-quality 4K export after final payment. Source files are not included. Lost your file? Ask for a replacement copy.</span>
+        </div>
+        <div style="padding: 22px 24px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; color: {{ accent }};">Posting &amp; privacy</span>
+          <span style="font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">I only post finished work publicly with your explicit permission. Private and anonymous commissions stay private.</span>
+        </div>
+        <div style="padding: 22px 24px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 8px;">
+          <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; color: {{ accent }};">Commercial use</span>
+          <span style="font-size: 14.5px; line-height: 1.7; color: rgba(var(--ink-rgb),0.85); text-wrap: pretty;">Edits require my permission, and full artist credit is required.</span>
+        </div>
+      </div>
+
+      <div style="margin-top: 56px; padding: 34px 38px; border: 1px solid rgba(var(--ink-rgb),0.14); border-radius: 14px;">
+        <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: oklch(0.62 0.19 25);"></span>
+          <h2 style="margin: 0; font-family: 'Instrument Serif', serif; font-size: 34px; font-weight: 400;">I will not draw:</h2>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px 36px; font-size: 17px; line-height: 1.5; color: rgba(var(--ink-rgb),0.9);">
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Detailed and senseless gore</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Depictions of suicide or self harm</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Representation of extremist groups or people</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Anything with children</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Loli characters</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Full comics as commissions</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Full city-wide shots or detailed scenery commissions, since I specialise in characters</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Vulgar or gross subjects like scat, sick or inflation</span></div>
+          <div style="display: flex; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(var(--ink-rgb),0.08);"><span style="color: oklch(0.62 0.19 25);">&#215;</span><span style="text-wrap: pretty;">Portraits of real people, only OCs or fictional characters</span></div>
+        </div>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+    <main style="padding: 52px 44px 90px; max-width: 900px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
+      <h1 style="margin: 0 0 6px; font-family: 'Instrument Serif', serif; font-size: 46px; font-weight: 400;">Contact me</h1>
+      <p style="margin: 0 0 38px; font-size: 15px; color: rgba(var(--ink-rgb),0.8);">Discord is fastest. Say hi, I don't bite.</p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
+        <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="3">
+          <a href="{{ c.href }}" target="{{ c.target }}" rel="noopener noreferrer" style="display: flex; flex-direction: column; gap: 20px; padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; transition: border-color 320ms, transform 320ms, background 320ms;" style-hover="border-color: {{ accent }}; transform: translateY(-3px); background: rgba(var(--ink-rgb),0.03)">
+            <div style="width: 42px; height: 42px; border-radius: 10px; background: {{ accentSoft }}; border: 1px solid {{ accent }}; display: flex; align-items: center; justify-content: center;">
+              <sc-if value="{{ c.isVr }}" hint-placeholder-val="{{ false }}">
+                <div style="width: 22px; height: 22px; background: url('uploads/vrchat-mark.png') center/contain no-repeat; opacity: 0.92;"></div>
+              </sc-if>
+              <sc-if value="{{ c.isImg }}" hint-placeholder-val="{{ false }}">
+                <div style="width: 20px; height: 20px; background: {{ c.iconBg }}; opacity: 0.92;"></div>
+              </sc-if>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <span style="font-size: 15px;">{{ c.name }}</span>
+              <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: rgba(var(--ink-rgb),0.8);">{{ c.handle }}</span>
+            </div>
+          </a>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <footer style="padding: 26px 44px 34px; border-top: 1px solid rgba(var(--ink-rgb),0.08); display: flex; justify-content: center; align-items: center; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; text-transform: none; color: rgba(var(--ink-rgb),0.4);">
+    <span style="color: rgba(var(--ink-rgb),0.78);">&#169; Gizunog</span>
+  </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 900}, &quot;showWelcome&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Behaviour&quot;}, &quot;galleryColumns&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 4, &quot;min&quot;: 2, &quot;max&quot;: 6, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Layout&quot;}}">
+const ART = 'thumbs/artwork-1785775619949.jpg';
+
+const TIERS_BODY = [
+  { name: 'icon', price: '$15' },
+  { name: 'half body', price: '$28' },
+  { name: 'full body', price: '$50' }
+];
+const TIERS_EXTRA = [
+  { name: 'extra half body character', price: '+$18' },
+  { name: 'extra full body character', price: '+$30' },
+  { name: 'background', price: '+$18' }
+];
+
+const U = n => n === 'R&P.png' ? 'uploads/' + encodeURIComponent(n) : 'thumbs/' + encodeURIComponent(n.replace(/\.[^.]+$/, '') + '.jpg');
+const NSFW = ['Jade hsr 2.png', 'Punk exposed.png', 'freua.png'].map(U);
+
+const STYLES = [
+  { key: 'half', label: 'Half-body samples', name: 'half body', accent: 'oklch(0.53 0.19 25)', bg: '#f8f1ea', bgDark: '#1b1315', from: '$28 · extra character +$18',
+    tiles: [
+      { img: ART, note: 'half body — anime fanart', price: '$28', w: '400px' },
+      { img: U('custom profile pictures.jpg'), note: 'half body — custom character', price: '$28', w: '400px' },
+      { img: U('BnW cell shaded half body.png'), note: 'half body — b&w cell shaded', price: '$28', w: '360px' }
+    ],
+    gallery: [
+      { img: ART, note: 'half body — anime fanart' },
+      { img: U('custom profile pictures.jpg'), note: 'half body — custom character' },
+      { img: U('custom banners and wallpapers.jpg'), note: 'half body — banner / wallpaper' },
+      { img: U('BnW cell shaded half body.png'), note: 'half body — b&w cell shaded' },
+      { img: U('bnw cell shaded half body 2.png'), note: 'half body — b&w cell shaded' },
+      { img: U("Antinque.png"), note: 'half body' },
+      { img: U("Arle bunny.png"), note: 'half body' },
+      { img: U("Balto.png"), note: 'half body' },
+      { img: U("Beach Mila.png"), note: 'half body' },
+      { img: U("Bell.png"), note: 'half body' },
+      { img: U("Brid.png"), note: 'half body' },
+      { img: U("Chaiki b.png"), note: 'half body' },
+      { img: U("Cots cover.png"), note: 'half body' },
+      { img: U("Giz 1.png"), note: 'half body' },
+      { img: U("Hane 3.png"), note: 'half body' },
+      { img: U("Henri-C.png"), note: 'half body' },
+      { img: U("Hound.png"), note: 'half body' },
+      { img: U("Jade hsr 2.png"), note: 'half body' },
+      { img: U("Lyria.png"), note: 'half body' },
+      { img: U("Nail.png"), note: 'half body' },
+      { img: U("Night.png"), note: 'half body' },
+      { img: U("Oseka blank.png"), note: 'half body' },
+      { img: U("PH.png"), note: 'half body' },
+      { img: U("Punk exposed.png"), note: 'half body' },
+      { img: U("R&P.png"), note: 'half body' },
+      { img: U("Rhino.png"), note: 'half body' },
+      { img: U("Snake.png"), note: 'half body' },
+      { img: U("Teifling concil member.png"), note: 'half body' },
+      { img: U("Vorpal.png"), note: 'half body' },
+      { img: U("VtM.png"), note: 'half body' },
+      { img: U("Zani in hot weather.png"), note: 'half body' },
+      { img: U("ani yawn.png"), note: 'half body' },
+      { img: U("babe.png"), note: 'half body' },
+      { img: U("balla frame.png"), note: 'half body' },
+      { img: U("bat lady 1st.png"), note: 'half body' },
+      { img: U("black hane.png"), note: 'half body' },
+      { img: U("boob slam.png"), note: 'half body' },
+      { img: U("bs and achwron.png"), note: 'half body' },
+      { img: U("chaiki banner.png"), note: 'half body' },
+      { img: U("cinde.png"), note: 'half body' },
+      { img: U("cloud dragon waifu.png"), note: 'half body' },
+      { img: U("cot guh.png"), note: 'half body' },
+      { img: U("creepy goat 2.png"), note: 'half body' },
+      { img: U("cyber sprint.png"), note: 'half body' },
+      { img: U("cyberrun.png"), note: 'half body' },
+      { img: U("daily2.png"), note: 'half body' },
+      { img: U("elf warriors bl.png"), note: 'half body' },
+      { img: U("ew.png"), note: 'half body' },
+      { img: U("freua.png"), note: 'half body' },
+      { img: U("ishmael baeball.png"), note: 'half body' },
+      { img: U("knight cursed sword.png"), note: 'half body' },
+      { img: U("labels.png"), note: 'half body' },
+      { img: U("limbus.png"), note: 'half body' },
+      { img: U("march merged good.png"), note: 'half body' },
+      { img: U("merlock b.png"), note: 'half body' },
+      { img: U("mila3.png"), note: 'half body' },
+      { img: U("miyo.png"), note: 'half body' },
+      { img: U("my girls.png"), note: 'half body' },
+      { img: U("okayu.png"), note: 'half body' },
+      { img: U("pingus bored.png"), note: 'half body' },
+      { img: U("princess_.png"), note: 'half body' },
+      { img: U("rheass.png"), note: 'half body' },
+      { img: U("rocky.png"), note: 'half body' },
+      { img: U("skull.png"), note: 'half body' },
+      { img: U("soundbreaker colour.png"), note: 'half body' },
+      { img: U("stelle.png"), note: 'half body' },
+      { img: U("succubu.png"), note: 'half body' },
+      { img: U("succubus pov.png"), note: 'half body' },
+      { img: U("tom.png"), note: 'half body' },
+      { img: U("useppi b.png"), note: 'half body' },
+      { img: U("ushuk aura.png"), note: 'half body' },
+      { img: U("xhaal.png"), note: 'half body' },
+      { img: U("zani.png"), note: 'half body' }
+    ] },
+  { key: 'full', label: 'Full-body samples', name: 'full body', accent: 'oklch(0.50 0.17 300)', bg: '#f5f1f8', bgDark: '#171420', from: '$50 · extra character +$30',
+    tiles: [
+      { img: U('freua.png'), note: 'full body — custom character', price: '$50', w: '400px' },
+      { img: U('bnw cell shaded full body.png'), note: 'full body — b&w cell shaded', price: '$50', w: '400px' },
+      { img: U('knight.png'), note: 'full body — custom character', price: '$50', w: '400px' }
+    ],
+    sub: [
+      { title: 'My \u2018Cats VS Rats Crawlers\u2019 universe characters', tiles: [
+        { img: U('crawler1.png'), note: 'full body' },
+        { img: U('crawler2.png'), note: 'full body — 3 extra characters' },
+        { img: U('custom character art.jpg'), note: 'full body' }
+      ] },
+      { title: 'Other full body pieces', tiles: [
+        { img: U('my own oc art.jpg'), note: 'original character — key art' },
+        { img: U('bnw cell shaded full body.png'), note: 'full body — b&w cell shaded' },
+        { img: U('black and white stylised cell shaded art.jpg'), note: 'full body — b&w cell shaded' },
+        { img: U("cilf.png"), note: 'full body' },
+        { img: U("cass v2.png"), note: 'full body' },
+        { img: U("Robos full versions.png"), note: 'full body' },
+        { img: U("knight.png"), note: 'full body' },
+        { img: U("shark.png"), note: 'full body' },
+        { img: U("Breaker idea.png"), note: 'full body' }
+      ] }
+    ] },
+  { key: 'icon', label: 'Icon samples', name: 'icon', accent: 'oklch(0.55 0.13 70)', bg: '#faf3e6', bgDark: '#1a1710', from: '$15 · stickers, emojis, pfps',
+    tiles: [
+      { img: U('custom stickers and emojis.png'), note: 'icon — sticker / emoji', price: '$15', w: '400px', fit: 'contain' },
+      { img: 'thumbs/HaloElf.png', note: 'icon — character head', price: '$15', w: '320px', fit: 'contain' },
+      { img: U('OniFlushed.png'), note: 'icon — character head', price: '$15', w: '320px', fit: 'contain' }
+    ],
+    gallery: [
+      { img: 'thumbs/HaloElf.png', note: 'icon', fit: 'contain' },
+      { img: U("AuroraSmug.png"), note: 'icon', fit: 'contain' },
+      { img: U("OniFlushed.png"), note: 'icon', fit: 'contain' },
+      { img: U("battler cry.png"), note: 'icon', fit: 'contain' },
+      { img: U("brotato.png"), note: 'icon', fit: 'contain' },
+      { img: U("fish.png"), note: 'icon', fit: 'contain' },
+      { img: U("Cat Logo.png"), note: 'icon', pos: '55% 88%' }
+    ] }
+];
+
+const GALLERY_GROUPS = STYLES;
+const PER_PAGE = 12;
+const ALL_TILES = STYLES.reduce((a, g) =>
+  a.concat(g.tiles, g.gallery || [], (g.sub || []).reduce((b, s) => b.concat(s.tiles), [])), []);
+
+const CROPS = [0.62, 0.7, 0.58, 0.66, 0.72, 0.6, 0.68, 0.64];
+const HEIGHTS = ['160px', '200px', '140px', '180px', '220px', '150px', '190px', '170px'];
+const NAV = [ ['home', 'Home'], ['art', 'My art'], ['pricing', 'Pricing and Rules'], ['contact', 'Contact me'] ];
+const CONTACTS = [
+  { name: 'Discord', handle: 'gizunog', icon: 'https://cdn.simpleicons.org/discord/e7eaf0' },
+  { name: 'VRChat', handle: 'Gizunog', url: 'https://vrchat.com/home/user/usr_7967fc41-7db4-445f-b805-10ef0f534d8a', icon: 'https://cdn.simpleicons.org/vrchat/e7eaf0' },
+  { name: 'Twitter', handle: '@Gizunog', url: 'https://x.com/gizunog', icon: 'https://cdn.simpleicons.org/x/e7eaf0' }
+];
+
+class Component extends DCLogic {
+  state = {
+    theme: 'light', curtain: true, page: 'home', sel: 0, gallerySel: 'all', artPage: 0,
+    colW: 0, ratios: {}, hover: -1, revealed: {}
+  };
+
+  grid = React.createRef();
+
+  dark() {
+    return (this.state.theme || 'light') === 'dark';
+  }
+
+  applyTheme() {
+    document.body.dataset.theme = this.dark() ? 'dark' : 'light';
+  }
+
+  componentDidUpdate() {
+    this.applyTheme();
+  }
+
+  componentDidMount() {
+    let saved = null;
+    try { saved = localStorage.getItem('giz-theme'); } catch (e) {}
+    if (saved) this.setState({ theme: saved });
+    this.applyTheme();
+    this.t = setTimeout(() => this.setState({ curtain: false }), 1650);
+    this.measure = () => {
+      const el = this.grid && this.grid.current;
+      if (!el) return;
+      const cols = this.props.galleryColumns ?? 4;
+      const w = (el.clientWidth - 14 * (cols - 1)) / cols;
+      if (w > 0 && Math.abs(w - this.state.colW) > 1) this.setState({ colW: w });
+    };
+    window.addEventListener('resize', this.measure);
+    this.ri = setInterval(this.measure, 400);
+    ALL_TILES.forEach(t => {
+      if (!t.img) return;
+      const im = new Image();
+      im.onload = () => this.setState(s => {
+        const r = Object.assign({}, s.ratios);
+        r[t.img] = im.naturalHeight / im.naturalWidth;
+        return { ratios: r };
+      });
+      im.src = t.img;
+    });
+  }
+  componentWillUnmount() { clearTimeout(this.t); clearInterval(this.ri); window.removeEventListener('resize', this.measure); }
+
+  top() { if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  go(page) { this.setState({ page }); this.top(); }
+  styleBy(key) { return STYLES.find(s => s.key === key) || STYLES[0]; }
+
+  tileFrom(t, idx, forceH) {
+    const ratio = (t.img ? this.state.ratios[t.img] : 1.15) || 1.15;
+    const crop = CROPS[idx % CROPS.length];
+    const natural = this.state.colW ? Math.round(this.state.colW * ratio) : 0;
+    const h = forceH ? forceH + 'px' : natural ? Math.round(natural * crop) + 'px' : HEIGHTS[idx % HEIGHTS.length];
+    const full = natural ? Math.max(natural, forceH || 0) + 'px' : h;
+    return {
+      bg: t.img ? 'url("' + t.img + '") ' + (t.pos || 'center') + '/cover no-repeat' : 'transparent',
+      empty: !t.img, note: t.note,
+      blurred: !!t.img && NSFW.includes(t.img) && !this.state.revealed[t.img],
+      filter: t.img && NSFW.includes(t.img) && !this.state.revealed[t.img] ? 'blur(26px)' : 'none',
+      reveal: () => this.setState(s => ({ revealed: Object.assign({}, s.revealed, { [t.img]: true }) })),
+      height: this.state.hover === idx ? full : h,
+      enter: () => this.setState({ hover: idx }),
+      leave: () => this.setState({ hover: -1 })
+    };
+  }
+
+  artTiles() {
+    const seen = {};
+    return ALL_TILES.filter(t => !seen[t.img] && (seen[t.img] = 1));
+  }
+
+  gallerySections() {
+    const cols = this.props.galleryColumns ?? 4;
+    const all = this.artTiles();
+    const start = (this.state.artPage || 0) * PER_PAGE;
+    const tiles = all.slice(start, start + PER_PAGE);
+    const n = Math.max(1, Math.min(cols, tiles.length));
+    const colW = this.state.colW || 240, GAP = 14;
+    const cols2 = [];
+    for (let i = 0; i < n; i++) cols2.push({ items: [], h: 0 });
+    tiles.forEach((t, i) => {
+      const ratio = (t.img ? this.state.ratios[t.img] : 1.15) || 1.15;
+      const th = Math.round(colW * ratio * CROPS[(start + i) % CROPS.length]);
+      const col = cols2.reduce((m, x) => x.h < m.h ? x : m, cols2[0]);
+      col.items.push({ t, idx: start + i, h: th });
+      col.h += th + GAP;
+    });
+    const maxH = Math.max(...cols2.map(x => x.h));
+    cols2.forEach(x => { const last = x.items[x.items.length - 1]; if (last) last.h += maxH - x.h; });
+    const c = cols2.map(x => ({ tiles: x.items.map(it => this.tileFrom(it.t, it.idx, this.state.colW ? it.h : 0)) }));
+    return [{ title: '', hasTitle: false, columns: c, maxW: '100%' }];
+  }
+
+  goPage(p) {
+    const max = Math.ceil(this.artTiles().length / PER_PAGE) - 1;
+    this.setState({ artPage: Math.max(0, Math.min(max, p)) });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  renderVals() {
+    const st = this.state;
+    const S = STYLES[st.sel];
+    const soft = a => a.replace(')', ' / 0.34)');
+    const cap = t => t.charAt(0).toUpperCase() + t.slice(1);
+
+    return {
+      curtain: st.curtain && (this.props.showWelcome ?? true),
+      galleryCols: this.props.galleryColumns ?? 4,
+      accent: S.accent.replace(/oklch\(0\.\d+/, m => {
+        const l = parseFloat(m.slice(6));
+        return 'oklch(' + (this.dark() ? Math.min(0.86, l + 0.22) : Math.max(0.34, l - 0.1)).toFixed(2);
+      }),
+      accentSoft: soft(S.accent), bg: this.dark() ? (S.bgDark || '#14161b') : S.bg,
+      isDark: this.dark(), isLight: !this.dark(),
+      knobTransform: 'translateX(' + (this.dark() ? 38 : 0) + 'px) scale(' + (this.state.press ? 0.9 : 1) + ')',
+      knobGlow: 'radial-gradient(circle, ' + S.accent.replace(')', ' / ' + (this.dark() ? 0.3 : 0.24) + ')') + ', transparent 68%)',
+      sunOp: this.dark() ? 0 : 1,
+      moonOp: this.dark() ? 1 : 0,
+      sunTransform: this.dark() ? 'rotate(80deg) scale(0.4)' : 'rotate(0deg) scale(1)',
+      moonTransform: this.dark() ? 'rotate(0deg) scale(1)' : 'rotate(-80deg) scale(0.4)',
+      trackSunOp: this.dark() ? 1 : 0,
+      trackMoonOp: this.dark() ? 0 : 1,
+      pressOn: () => this.setState({ press: true }),
+      pressOff: () => this.setState({ press: false }),
+      toggleTheme: () => {
+        const next = this.dark() ? 'light' : 'dark';
+        try { localStorage.setItem('giz-theme', next); } catch (e) {}
+        this.setState({ theme: next });
+      },
+      mosaicLines: (() => {
+        const a = S.accent.replace(')', ' / 0.11)');
+        return 'linear-gradient(' + a + ' 1px, transparent 1px), linear-gradient(90deg, ' + a + ' 1px, transparent 1px)';
+      })(),
+      isHome: st.page === 'home', isArt: st.page === 'art',
+      isPricing: st.page === 'pricing', isContact: st.page === 'contact',
+      goHome: () => this.go('home'),
+
+      nav: NAV.map(([key, label]) => ({
+        label,
+        color: st.page === key ? S.accent : 'rgba(var(--ink-rgb),0.8)',
+        pill: st.page === key ? soft(S.accent) : 'transparent',
+        line: st.page === key ? S.accent : 'transparent',
+        go: () => this.go(key)
+      })),
+
+      styles: STYLES.map((s, i) => ({
+        key: s.key, label: s.label, dim: i === st.sel ? 1 : 0.26,
+        pick: () => this.setState({ sel: i })
+      })),
+      wheel: 'translateY(' + (-st.sel * 92) + 'px)',
+      count: (st.sel + 1) + ' / ' + STYLES.length,
+      priceLine: S.from,
+      selKey: S.key, selLabel: S.label,
+      prev: () => this.setState({ sel: (st.sel - 1 + STYLES.length) % STYLES.length }),
+      next: () => this.setState({ sel: (st.sel + 1) % STYLES.length }),
+      samples: S.tiles.map(t => ({
+        bg: t.img ? 'url("' + t.img + '") center/' + (t.fit || 'cover') + ' no-repeat' : 'transparent',
+        empty: !t.img, note: t.note, price: t.price, w: t.w || '360px'
+      })),
+
+      chips: [{ key: 'all', label: 'Everything' }].concat(GALLERY_GROUPS.map(s => ({ key: s.key, label: s.name })))
+        .map(c => ({
+          label: cap(c.label),
+          bg: st.gallerySel === c.key ? soft(S.accent) : 'transparent',
+          border: st.gallerySel === c.key ? S.accent : 'rgba(var(--ink-rgb),0.16)',
+          color: st.gallerySel === c.key ? 'var(--ink)' : 'rgba(var(--ink-rgb),0.65)',
+          pick: () => this.setState({ gallerySel: c.key })
+        })),
+      gallerySel: st.gallerySel,
+      gridRef: this.grid,
+      sections: this.gallerySections(),
+      pages: Array.from({ length: Math.ceil(this.artTiles().length / PER_PAGE) }, (_, i) => ({
+        n: i + 1,
+        bg: i === st.artPage ? soft(S.accent) : 'transparent',
+        border: i === st.artPage ? S.accent : 'rgba(var(--ink-rgb),0.16)',
+        pick: () => this.goPage(i)
+      })),
+      pagePrev: () => this.goPage(st.artPage - 1),
+      pageNext: () => this.goPage(st.artPage + 1),
+      prevOp: st.artPage === 0 ? 0.35 : 1,
+      nextOp: st.artPage >= Math.ceil(this.artTiles().length / PER_PAGE) - 1 ? 0.35 : 1,
+
+      contacts: CONTACTS.map(c => ({
+        name: c.name, handle: c.handle, href: c.url || '#', target: c.url ? '_blank' : '_self',
+        isVr: c.name === 'VRChat', isImg: c.name !== 'VRChat',
+        iconBg: 'url("' + c.icon + '") center/contain no-repeat'
+      })),
+      animA: st.sel % 2 === 0 ? 'giz-in' : 'giz-in-alt',
+      animB: st.sel % 2 === 0 ? 'giz-fade' : 'giz-fade-alt',
+      animG: st.artPage % 2 === 0 ? 'giz-fade' : 'giz-fade-alt'
+
+    };
+  }
+}
+</script>
+</body>
+</html>
