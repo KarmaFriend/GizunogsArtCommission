@@ -201,7 +201,7 @@
         </div>
         <div style="padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
           <div style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.14em; color: rgba(var(--ink-rgb),0.78);">Half Body</div>
-          <div style="font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; padding-top: 12px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">$28</div>
+          <div style="font-family: 'Instrument Serif', serif; font-size: 40px; line-height: 1; padding-top: 12px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">$32</div>
           <div style="font-size: 14px; color: rgba(var(--ink-rgb),0.72);">Portrait, waist up</div>
         </div>
         <div style="padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
@@ -220,11 +220,11 @@
         <div style="padding: 24px 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
           <div style="display: flex; justify-content: space-between; gap: 20px;">
             <span style="font-size: 14.5px;">Extra Half Body character</span>
-            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$18 each</span>
+            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$20 each</span>
           </div>
           <div style="display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">
             <span style="font-size: 14.5px;">Extra Full Body character</span>
-            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$30 each</span>
+            <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: {{ accent }};">+$35 each</span>
           </div>
           <div style="display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid rgba(var(--ink-rgb),0.1);">
             <span style="font-size: 14.5px;">Rush commission</span>
@@ -328,12 +328,12 @@ const ART = 'thumbs/artwork-1785775619949.jpg';
 
 const TIERS_BODY = [
   { name: 'icon', price: '$15' },
-  { name: 'half body', price: '$28' },
+  { name: 'half body', price: '$32' },
   { name: 'full body', price: '$50' }
 ];
 const TIERS_EXTRA = [
-  { name: 'extra half body character', price: '+$18' },
-  { name: 'extra full body character', price: '+$30' },
+  { name: 'extra half body character', price: '+$20' },
+  { name: 'extra full body character', price: '+$35' },
   { name: 'background', price: '+$18' }
 ];
 
@@ -341,11 +341,11 @@ const U = n => n === 'R&P.png' ? 'uploads/' + encodeURIComponent(n) : 'thumbs/' 
 const NSFW = ['Jade hsr 2.png', 'Punk exposed.png', 'freua.png'].map(U);
 
 const STYLES = [
-  { key: 'half', label: 'Half-body samples', name: 'half body', accent: 'oklch(0.53 0.19 25)', bg: '#f8f1ea', bgDark: '#1b1315', from: '$28 · extra character +$18',
+  { key: 'half', label: 'Half-body samples', name: 'half body', accent: 'oklch(0.53 0.19 25)', bg: '#f8f1ea', bgDark: '#1b1315', from: '$32 · extra character +$20',
     tiles: [
-      { img: ART, note: 'half body — anime fanart', price: '$28', w: '400px' },
-      { img: U('custom profile pictures.jpg'), note: 'half body — custom character', price: '$28', w: '400px' },
-      { img: U('BnW cell shaded half body.png'), note: 'half body — b&w cell shaded', price: '$28', w: '360px' }
+      { img: ART, note: 'half body — anime fanart', price: '$32', w: '400px' },
+      { img: U('custom profile pictures.jpg'), note: 'half body — custom character', price: '$32', w: '400px' },
+      { img: U('BnW cell shaded half body.png'), note: 'half body — b&w cell shaded', price: '$32', w: '360px' }
     ],
     gallery: [
       { img: ART, note: 'half body — anime fanart' },
@@ -422,7 +422,7 @@ const STYLES = [
       { img: U("xhaal.png"), note: 'half body' },
       { img: U("zani.png"), note: 'half body' }
     ] },
-  { key: 'full', label: 'Full-body samples', name: 'full body', accent: 'oklch(0.50 0.17 300)', bg: '#f5f1f8', bgDark: '#171420', from: '$50 · extra character +$30',
+  { key: 'full', label: 'Full-body samples', name: 'full body', accent: 'oklch(0.50 0.17 300)', bg: '#f5f1f8', bgDark: '#171420', from: '$50 · extra character +$35',
     tiles: [
       { img: U('freua.png'), note: 'full body — custom character', price: '$50', w: '400px' },
       { img: U('bnw cell shaded full body.png'), note: 'full body — b&w cell shaded', price: '$50', w: '400px' },
