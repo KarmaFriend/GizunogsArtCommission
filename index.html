@@ -325,7 +325,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 900}, &quot;showWelcome&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Behaviour&quot;}, &quot;galleryColumns&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 4, &quot;min&quot;: 2, &quot;max&quot;: 6, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Layout&quot;}}">
 const ART = 'thumbs/artwork-1785775619949.jpg';
-const NEW_UPLOAD = n => 'uploads/2026-11-04/' + encodeURIComponent(n);
+const NEW_UPLOAD = n => 'thumbs/2026-11-04/' + encodeURIComponent(n.replace(/\.[^.]+$/, '') + '.jpg');
 
 const TIERS_BODY = [
   { name: 'icon', price: '$15' },
