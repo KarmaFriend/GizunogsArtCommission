@@ -325,6 +325,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 900}, &quot;showWelcome&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Behaviour&quot;}, &quot;galleryColumns&quot;: {&quot;editor&quot;: &quot;int&quot;, &quot;default&quot;: 4, &quot;min&quot;: 2, &quot;max&quot;: 6, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Layout&quot;}}">
 const ART = 'thumbs/artwork-1785775619949.jpg';
+const NEW_UPLOAD = n => 'uploads/2026-11-04/' + encodeURIComponent(n);
 
 const TIERS_BODY = [
   { name: 'icon', price: '$15' },
@@ -397,7 +398,6 @@ const STYLES = [
       { img: U("elf warriors bl.png"), note: 'half body' },
       { img: U("ew.png"), note: 'half body' },
       { img: U("freua.png"), note: 'half body' },
-      { img: U("ishmael baeball.png"), note: 'half body' },
       { img: U("knight cursed sword.png"), note: 'half body' },
       { img: U("labels.png"), note: 'half body' },
       { img: U("limbus.png"), note: 'half body' },
@@ -425,7 +425,7 @@ const STYLES = [
   { key: 'full', label: 'Full-body samples', name: 'full body', accent: 'oklch(0.50 0.17 300)', bg: '#f5f1f8', bgDark: '#171420', from: '$50 · extra character +$35',
     tiles: [
       { img: U('freua.png'), note: 'full body — custom character', price: '$50', w: '400px' },
-      { img: U('bnw cell shaded full body.png'), note: 'full body — b&w cell shaded', price: '$50', w: '400px' },
+      { img: NEW_UPLOAD('1.png'), note: 'full body — b&w cell shaded', price: '$50', w: '400px', fit: 'contain', paper: true },
       { img: U('knight.png'), note: 'full body — custom character', price: '$50', w: '400px' }
     ],
     sub: [
@@ -449,8 +449,8 @@ const STYLES = [
   { key: 'icon', label: 'Icon samples', name: 'icon', accent: 'oklch(0.55 0.13 70)', bg: '#faf3e6', bgDark: '#1a1710', from: '$15 · stickers, emojis, pfps',
     tiles: [
       { img: U('custom stickers and emojis.png'), note: 'icon — sticker / emoji', price: '$15', w: '400px', fit: 'contain' },
-      { img: 'thumbs/HaloElf.png', note: 'icon — character head', price: '$15', w: '320px', fit: 'contain' },
-      { img: U('OniFlushed.png'), note: 'icon — character head', price: '$15', w: '320px', fit: 'contain' }
+      { img: NEW_UPLOAD('2.png'), note: 'icon — character head', price: '$15', w: '320px', fit: 'contain', paper: true },
+      { img: NEW_UPLOAD('3.png'), note: 'icon — character head', price: '$15', w: '320px', fit: 'contain', paper: true }
     ],
     gallery: [
       { img: 'thumbs/HaloElf.png', note: 'icon', fit: 'contain' },
@@ -463,10 +463,28 @@ const STYLES = [
     ] }
 ];
 
+// New batches go at the beginning, in the order supplied by the artist.
+const NEW_ARTWORK = [
+  { img: NEW_UPLOAD("1.png"), note: "1", paper: true },
+  { img: NEW_UPLOAD("2.png"), note: "2", paper: true },
+  { img: NEW_UPLOAD("3.png"), note: "3", paper: true },
+  { img: NEW_UPLOAD("bubb_merc.png"), note: "bubb merc" },
+  { img: NEW_UPLOAD("brushing_teeth.png"), note: "brushing teeth" },
+  { img: NEW_UPLOAD("ishmael_baeball.png"), note: "ishmael baeball" },
+  { img: NEW_UPLOAD("bunny_agent.png"), note: "bunny agent" },
+  { img: NEW_UPLOAD("Mila_tease.png"), note: "Mila tease" },
+  { img: NEW_UPLOAD("gabura.png"), note: "gabura" },
+  { img: NEW_UPLOAD("hammer.png"), note: "hammer" },
+  { img: NEW_UPLOAD("tomboy_straddle.png"), note: "tomboy straddle" },
+  { img: NEW_UPLOAD("ko.png"), note: "ko" },
+  { img: NEW_UPLOAD("new_pfp.png"), note: "new pfp" },
+  { img: NEW_UPLOAD("Meopw.png"), note: "Meopw" }
+];
+
 const GALLERY_GROUPS = STYLES;
 const PER_PAGE = 12;
-const ALL_TILES = STYLES.reduce((a, g) =>
-  a.concat(g.tiles, g.gallery || [], (g.sub || []).reduce((b, s) => b.concat(s.tiles), [])), []);
+const ALL_TILES = NEW_ARTWORK.concat(STYLES.reduce((a, g) =>
+  a.concat(g.tiles, g.gallery || [], (g.sub || []).reduce((b, s) => b.concat(s.tiles), [])), []));
 
 const CROPS = [0.62, 0.7, 0.58, 0.66, 0.72, 0.6, 0.68, 0.64];
 const HEIGHTS = ['160px', '200px', '140px', '180px', '220px', '150px', '190px', '170px'];
@@ -536,7 +554,7 @@ class Component extends DCLogic {
     const h = forceH ? forceH + 'px' : natural ? Math.round(natural * crop) + 'px' : HEIGHTS[idx % HEIGHTS.length];
     const full = natural ? Math.max(natural, forceH || 0) + 'px' : h;
     return {
-      bg: t.img ? 'url("' + t.img + '") ' + (t.pos || 'center') + '/cover no-repeat' : 'transparent',
+      bg: t.img ? 'url("' + t.img + '") ' + (t.pos || 'center') + '/cover no-repeat' + (t.paper ? ' #fff' : '') : 'transparent',
       empty: !t.img, note: t.note,
       blurred: !!t.img && NSFW.includes(t.img) && !this.state.revealed[t.img],
       filter: t.img && NSFW.includes(t.img) && !this.state.revealed[t.img] ? 'blur(26px)' : 'none',
@@ -637,7 +655,7 @@ class Component extends DCLogic {
       prev: () => this.setState({ sel: (st.sel - 1 + STYLES.length) % STYLES.length }),
       next: () => this.setState({ sel: (st.sel + 1) % STYLES.length }),
       samples: S.tiles.map(t => ({
-        bg: t.img ? 'url("' + t.img + '") center/' + (t.fit || 'cover') + ' no-repeat' : 'transparent',
+        bg: t.img ? 'url("' + t.img + '") center/' + (t.fit || 'cover') + ' no-repeat' + (t.paper ? ' #fff' : '') : 'transparent',
         empty: !t.img, note: t.note, price: t.price, w: t.w || '360px'
       })),
 
