@@ -1,0 +1,79 @@
+/* Mobile adaptation; the desktop composition remains the default. */
+.nav-icon, .mobile-nav-label, .mobile-sample-heading, .mobile-art-open { display: none; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+button { touch-action: manipulation; }
+button:disabled { cursor: default !important; }
+.art-viewer-backdrop { position: fixed; inset: 0; z-index: 80; background: rgba(10,12,16,.94); display: flex; align-items: center; justify-content: center; }
+.art-viewer { width: 100%; height: 100dvh; display: flex; align-items: center; justify-content: center; }
+.art-viewer img { display: block; max-width: 100%; max-height: calc(100dvh - 140px); object-fit: contain; }
+.viewer-close { position: absolute; top: max(16px, env(safe-area-inset-top)); right: 16px; width: 48px; height: 48px; border: 1px solid #777; border-radius: 50%; background: #23252a; color: #fff; display: grid; place-items: center; cursor: pointer; }
+@media (max-width: 1000px) {
+  .site-header { grid-template-columns: 1fr auto !important; padding: 16px 24px !important; }
+  .site-nav { grid-row: 2; grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  html { scroll-padding-top: 80px; }
+  body { -webkit-text-size-adjust: 100%; }
+  .site-header { display: flex !important; justify-content: space-between; gap: 12px !important; padding: max(12px, env(safe-area-inset-top)) 20px 12px !important; background: var(--paper) !important; backdrop-filter: none !important; }
+  .site-brand { font-size: 23px !important; letter-spacing: 0 !important; min-height: 44px; }
+  .theme-toggle { height: 44px !important; }
+  .theme-toggle > span:last-child { top: 6px !important; }
+  .site-nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 60; display: grid !important; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 4px !important; padding: 8px max(12px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)); background: var(--paper); border-top: 1px solid rgba(var(--ink-rgb),.16); box-shadow: 0 -4px 18px rgba(0,0,0,.06); }
+  .site-nav .nav-item { min-width: 0; min-height: 58px; padding: 7px 3px !important; border-bottom: 0 !important; border-radius: 10px !important; font-size: 13px !important; letter-spacing: 0 !important; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+  .nav-icon, .mobile-nav-label { display: block; }
+  .desktop-nav-label { display: none; }
+  .commission-status { padding: 18px 16px 0 !important; }
+  .commission-status > span { padding: 8px 12px !important; font-size: 13px !important; }
+  .style-wheel { display: none !important; }
+  .sample-intro { padding: 32px 20px 22px !important; gap: 18px !important; align-items: stretch !important; }
+  .mobile-sample-heading { display: block; }
+  .mobile-sample-heading h1 { font-family: 'Instrument Serif', serif; font-size: 42px; font-weight: 400; line-height: 1.05; margin: 0 0 12px; letter-spacing: -.015em; text-align: center; }
+  .mobile-sample-price { margin: 0 0 18px; text-align: center; font-size: 15px; line-height: 1.5; color: rgba(var(--ink-rgb),.8); }
+  .sample-tabs { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); border-bottom: 1px solid rgba(var(--ink-rgb),.22); gap: 4px; }
+  .sample-tabs button { border: 0; border-bottom: 2px solid transparent; padding: 12px 2px; min-height: 48px; color: rgba(var(--ink-rgb),.75); font-size: 16px; background: transparent; cursor: pointer; }
+  .sample-tabs button[aria-pressed="true"] { border-bottom-color: var(--ink); color: var(--ink); font-weight: 700; }
+  .sample-controls { display: none !important; }
+  .sample-controls > :not(:last-child) { display: none !important; }
+  .sample-section { padding: 0 20px !important; }
+  .sample-section > div { gap: 28px !important; }
+  .sample-card { width: 100% !important; min-width: 0; }
+  .sample-image { height: auto !important; aspect-ratio: 1; border-radius: 10px !important; }
+  .sample-card > div:last-child > span:first-child { flex: 1; text-align: center; font-size: 15px !important; letter-spacing: 0 !important; }
+  .sample-card > div:last-child > span:last-child { flex-shrink: 0; }
+  .home-spacer { height: 44px !important; }
+  .gallery-page, .pricing-page, .contact-page { padding: 30px 20px 42px !important; box-sizing: border-box; width: 100%; }
+  main h1 { font-size: 40px !important; line-height: 1.1; }
+  .gallery-page h1 { margin-bottom: 24px !important; padding-bottom: 22px; text-align: center; border-bottom: 1px solid rgba(var(--ink-rgb),.22); }
+  .pricing-page h1 { text-align: center; }
+  .gallery-image { inset: 0 !important; }
+  .gallery-tile { border-radius: 9px !important; }
+  .mobile-art-open { display: block; position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; cursor: zoom-in; }
+  .mobile-art-open:focus-visible { outline-offset: -4px; }
+  .gallery-pagination { gap: 6px !important; }
+  .gallery-pagination button { min-height: 44px; min-width: 44px; font-size: 15px !important; }
+  .gallery-pagination .page-number { width: 44px !important; height: 44px !important; }
+  .pricing-page p, .pricing-page span, .pricing-page > div > div > div, .pricing-page > div > div > span { font-size: 16px !important; }
+  .pricing-page p { line-height: 1.65 !important; margin-top: 14px !important; }
+  .pricing-page > div { grid-template-columns: minmax(0,1fr) !important; }
+  .pricing-page > div:first-of-type { grid-template-columns: repeat(2,minmax(0,1fr)) !important; gap: 12px !important; }
+  .pricing-page > div:first-of-type > div { padding: 18px 14px !important; gap: 12px !important; }
+  .pricing-page > div:first-of-type > div > div:nth-child(2) { font-size: 38px !important; }
+  .pricing-page > div:first-of-type > div > div:last-child { line-height: 1.5; font-size: 14px !important; }
+  .pricing-page > div > div { min-width: 0; }
+  .pricing-page > div:nth-of-type(2) > div { padding: 20px 16px !important; }
+  .pricing-page > div:nth-of-type(2) > div > div { gap: 16px !important; }
+  .pricing-page > div:nth-of-type(2) > div > div > span:last-child { flex-shrink: 0; }
+  .pricing-page > div:last-child { padding: 24px 18px !important; margin-top: 32px !important; }
+  .pricing-page > div:last-child > div:last-child { grid-template-columns: minmax(0,1fr) !important; }
+  .contact-page > p { font-size: 16px !important; line-height: 1.6; margin-top: 12px !important; }
+  .contact-page > div { grid-template-columns: minmax(0,1fr) !important; }
+  .contact-page a, .contact-page .contact-copy { flex-direction: row !important; align-items: center; min-height: 84px; box-sizing: border-box; padding: 20px !important; }
+  .contact-page a span, .contact-page .contact-copy span { font-size: 16px !important; }
+  .site-footer { padding: 22px 20px calc(104px + env(safe-area-inset-bottom)) !important; }
+  /* Keep the patterned backdrop quiet and inexpensive on a phone. */
+  div[style*="giz-current"] { animation: none !important; opacity: .08 !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

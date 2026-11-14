@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Gizunog's Art Commission</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="./mobile.css">
 <script src="./support.js"></script>
 </head>
 <body>
@@ -54,15 +55,15 @@
     <div style="position: absolute; top: -60%; left: -60%; width: 220%; height: 220%; transform: rotate(45deg); mix-blend-mode: var(--blend); background-image: {{ mosaicLines }}; background-size: 15px 15px, 15px 15px; -webkit-mask-image: linear-gradient(0deg, transparent 0%, rgba(0,0,0,0.3) 9%, #000 15%, rgba(0,0,0,0.3) 21%, transparent 30%); mask-image: linear-gradient(0deg, transparent 0%, rgba(0,0,0,0.3) 9%, #000 15%, rgba(0,0,0,0.3) 21%, transparent 30%); -webkit-mask-size: 100% 620px; mask-size: 100% 620px; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; opacity: 0.28; animation: giz-current-v 13s linear infinite;"></div>
   </div>
   <div style="position: relative; z-index: 1;">
-  <header style="position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; padding: 20px 32px; background: var(--bar); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(var(--ink-rgb),0.09);">
-    <button onClick="{{ goHome }}" style="background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); font-family: 'Instrument Serif', serif; font-size: 23px; letter-spacing: 0.04em; white-space: nowrap;">Gizunog's art corner</button>
-    <nav style="display: flex; gap: 10px; flex-wrap: nowrap; white-space: nowrap; justify-content: center; font-size: 16px; letter-spacing: 0.01em;">
+  <header class="site-header" style="position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; gap: 16px; padding: 20px 32px; background: var(--bar); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(var(--ink-rgb),0.09);">
+    <button class="site-brand" onClick="{{ goHome }}" style="background: none; border: 0; padding: 0; cursor: pointer; color: var(--ink); font-family: 'Instrument Serif', serif; font-size: 23px; letter-spacing: 0.04em; white-space: nowrap;">Gizunog's art corner</button>
+    <nav class="site-nav" aria-label="Main navigation" style="display: flex; gap: 10px; flex-wrap: nowrap; white-space: nowrap; justify-content: center; font-size: 16px; letter-spacing: 0.01em;">
       <sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
-        <button onClick="{{ n.go }}" style-hover="background: rgba(var(--ink-rgb),0.09)" style="background: {{ n.pill }}; border: 0; padding: 9px 14px; border-radius: 10px; white-space: nowrap; cursor: pointer; transition: background 260ms, color 260ms; font-family: inherit; font-size: 16px; letter-spacing: 0.01em; color: {{ n.color }}; border-bottom: 1px solid {{ n.line }}; transition: color 300ms, border-color 300ms;" style-hover="color: #0d0b09">{{ n.label }}</button>
+        <button class="nav-item" aria-label="{{ n.label }}" aria-current="{{ n.current }}" onClick="{{ n.go }}" style-hover="background: rgba(var(--ink-rgb),0.09)" style="background: {{ n.pill }}; border: 0; padding: 9px 14px; border-radius: 10px; white-space: nowrap; cursor: pointer; transition: background 260ms, color 260ms; font-family: inherit; font-size: 16px; letter-spacing: 0.01em; color: {{ n.color }}; border-bottom: 1px solid {{ n.line }}; transition: color 300ms, border-color 300ms;" style-hover="color: #0d0b09"><svg class="nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{ n.icon }}"></path></svg><span class="desktop-nav-label">{{ n.label }}</span><span class="mobile-nav-label">{{ n.short }}</span></button>
       </sc-for>
     </nav>
     <div style="display: flex; justify-content: flex-end; align-items: center; min-width: 0;">
-      <button onClick="{{ toggleTheme }}" onPointerDown="{{ pressOn }}" onPointerUp="{{ pressOff }}" onPointerLeave="{{ pressOff }}" title="Toggle dark mode" aria-label="Toggle dark mode" style-hover="box-shadow: inset 0 2px 5px rgba(var(--ink-rgb),0.14), 0 0 0 5px rgba(var(--ink-rgb),0.06)" style="position: relative; display: block; flex: 0 0 auto; width: 76px; height: 38px; padding: 0; box-sizing: border-box; border: 1px solid rgba(var(--ink-rgb),0.14); border-radius: 999px; background: rgba(var(--ink-rgb),0.055); backdrop-filter: blur(10px); cursor: pointer; box-shadow: inset 0 2px 5px rgba(var(--ink-rgb),0.13), 0 0 0 0 rgba(var(--ink-rgb),0); transition: box-shadow 320ms cubic-bezier(.34,1.56,.64,1), background 400ms, border-color 400ms; -webkit-tap-highlight-color: transparent;">
+      <button class="theme-toggle" onClick="{{ toggleTheme }}" onPointerDown="{{ pressOn }}" onPointerUp="{{ pressOff }}" onPointerLeave="{{ pressOff }}" title="Toggle dark mode" aria-label="Toggle dark mode" style-hover="box-shadow: inset 0 2px 5px rgba(var(--ink-rgb),0.14), 0 0 0 5px rgba(var(--ink-rgb),0.06)" style="position: relative; display: block; flex: 0 0 auto; width: 76px; height: 38px; padding: 0; box-sizing: border-box; border: 1px solid rgba(var(--ink-rgb),0.14); border-radius: 999px; background: rgba(var(--ink-rgb),0.055); backdrop-filter: blur(10px); cursor: pointer; box-shadow: inset 0 2px 5px rgba(var(--ink-rgb),0.13), 0 0 0 0 rgba(var(--ink-rgb),0); transition: box-shadow 320ms cubic-bezier(.34,1.56,.64,1), background 400ms, border-color 400ms; -webkit-tap-highlight-color: transparent;">
         <span style="position: absolute; left: 11px; top: 50%; transform: translateY(-50%); display: flex; color: rgba(var(--ink-rgb),0.55); opacity: {{ trackSunOp }}; transition: opacity 380ms ease;">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
             <circle cx="12" cy="12" r="4.4" fill="currentColor" stroke="none"></circle>
@@ -88,7 +89,7 @@
     </div>
   </header>
 
-  <div style="display: flex; justify-content: center; padding: 16px 32px 0;">
+  <div class="commission-status" style="display: flex; justify-content: center; padding: 16px 32px 0;">
     <span style="display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.14); background: rgba(var(--ink-rgb),0.04); font-size: 14px; color: rgba(var(--ink-rgb),0.84);">
       <span style="flex: 0 0 auto; width: 8px; height: 8px; border-radius: 50%; background: oklch(0.68 0.15 148); box-shadow: 0 0 0 4px oklch(0.68 0.15 148 / 0.18); animation: giz-pulse 2600ms ease-in-out infinite;"></span>
       <span>Commissions: <strong style="font-weight: 500;">OPEN</strong> &#183; 4/5 slots available</span>
@@ -97,8 +98,8 @@
 
   <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
     <main>
-      <section style="padding: 64px 44px 30px; display: flex; flex-direction: column; align-items: center; gap: 32px;">
-        <div style="display: flex; justify-content: center; width: 100%; font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 1;">
+      <section class="sample-intro" style="padding: 64px 44px 30px; display: flex; flex-direction: column; align-items: center; gap: 32px;">
+        <div class="style-wheel" style="display: flex; justify-content: center; width: 100%; font-family: 'Instrument Serif', serif; font-size: 64px; line-height: 1;">
           <div style="height: 92px; width: 100%; max-width: 720px; overflow: hidden; position: relative; border-bottom: 2px solid {{ accent }}; transition: border-color 500ms;">
             <div style="position: absolute; inset: 0; display: flex; flex-direction: column; transform: {{ wheel }}; transition: transform 660ms cubic-bezier(.22,1,.36,1);">
               <sc-for list="{{ styles }}" as="s" hint-placeholder-count="6">
@@ -108,7 +109,14 @@
           </div>
         </div>
 
-        <div style="display: flex; align-items: center; gap: 18px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; text-transform: none; color: rgba(var(--ink-rgb),0.8);">
+        <div class="mobile-sample-heading">
+          <h1>Commission samples</h1>
+          <p class="mobile-sample-price">{{ priceLine }}</p>
+          <div class="sample-tabs" role="group" aria-label="Sample type">
+            <sc-for list="{{ styles }}" as="s"><button onClick="{{ s.pick }}" aria-pressed="{{ s.selected }}">{{ s.short }}</button></sc-for>
+          </div>
+        </div>
+        <div class="sample-controls" style="display: flex; align-items: center; gap: 18px; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; text-transform: none; color: rgba(var(--ink-rgb),0.8);">
           <button onClick="{{ next }}" style="background: none; border: 1px solid rgba(var(--ink-rgb),0.2); color: inherit; width: 28px; height: 28px; padding: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; line-height: 1; font-size: 14.5px; border-radius: 50%; cursor: pointer;" style-hover="border-color: rgba(var(--ink-rgb),0.8)">&#8593;</button>
           <span>{{ count }}</span>
           <button onClick="{{ prev }}" style="background: none; border: 1px solid rgba(var(--ink-rgb),0.2); color: inherit; width: 28px; height: 28px; padding: 0; box-sizing: border-box; display: flex; align-items: center; justify-content: center; line-height: 1; font-size: 14.5px; border-radius: 50%; cursor: pointer;" style-hover="border-color: rgba(var(--ink-rgb),0.8)">&#8595;</button>
@@ -117,11 +125,11 @@
         </div>
       </section>
 
-      <section style="padding: 12px 44px 0; animation: {{ animA }} 640ms cubic-bezier(.22,1,.36,1) both;">
+      <section class="sample-section" style="padding: 12px 44px 0; animation: {{ animA }} 640ms cubic-bezier(.22,1,.36,1) both;">
         <div style="display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: center; gap: 26px;">
           <sc-for list="{{ samples }}" as="sm" hint-placeholder-count="2">
-            <div style="display: flex; flex-direction: column; gap: 12px; width: {{ sm.w }};">
-              <div style="position: relative; height: 400px; overflow: hidden; border-radius: 12px; background: var(--card); border: 1px solid rgba(var(--ink-rgb),0.1);">
+            <div class="sample-card" style="display: flex; flex-direction: column; gap: 12px; width: {{ sm.w }};">
+              <div class="sample-image" style="position: relative; height: 400px; overflow: hidden; border-radius: 12px; background: var(--card); border: 1px solid rgba(var(--ink-rgb),0.1);">
                 <div style="position: absolute; inset: 0; background: {{ sm.bg }};"></div>
                 <sc-if value="{{ sm.empty }}" hint-placeholder-val="{{ true }}">
                   <div style="position: absolute; inset: 0; box-sizing: border-box; background-image: repeating-linear-gradient(135deg, rgba(var(--ink-rgb),0.07) 0 6px, transparent 6px 13px);"></div>
@@ -136,12 +144,12 @@
         </div>
       </section>
 
-      <div style="height: 90px;"></div>
+      <div class="home-spacer" style="height: 90px;"></div>
     </main>
   </sc-if>
 
   <sc-if value="{{ isArt }}" hint-placeholder-val="{{ false }}">
-    <main style="padding: 52px 44px 90px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
+    <main class="gallery-page" style="padding: 52px 44px 90px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
       <h1 style="margin: 0 0 26px; font-family: 'Instrument Serif', serif; font-size: 46px; font-weight: 400;">My art</h1>
       <div ref="{{ gridRef }}" style="display: flex; flex-direction: column; gap: 10px; animation: {{ animG }} 520ms both;">
         <sc-for list="{{ sections }}" as="sec" hint-placeholder-count="1">
@@ -157,12 +165,13 @@
         <sc-for list="{{ sec.columns }}" as="col" hint-placeholder-count="4">
         <div style="flex: 1 1 0; min-width: 0;">
         <sc-for list="{{ col.tiles }}" as="g" hint-placeholder-count="3">
-          <div onMouseEnter="{{ g.enter }}" onMouseLeave="{{ g.leave }}" style="break-inside: avoid; margin-bottom: 14px; position: relative; overflow: hidden; border-radius: 12px; border: 1px solid rgba(var(--ink-rgb),0.1); background: var(--card); height: {{ g.height }}; transition: height 560ms cubic-bezier(.22,1,.36,1);">
-            <div style="position: absolute; inset: -30px; background: {{ g.bg }}; filter: {{ g.filter }}; transition: filter 400ms;"></div>
+          <div class="gallery-tile" onMouseEnter="{{ g.enter }}" onMouseLeave="{{ g.leave }}" style="break-inside: avoid; margin-bottom: 14px; position: relative; overflow: hidden; border-radius: 12px; border: 1px solid rgba(var(--ink-rgb),0.1); background: var(--card); height: {{ g.height }}; transition: height 560ms cubic-bezier(.22,1,.36,1);">
+            <div class="gallery-image" style="position: absolute; inset: -30px; background: {{ g.bg }}; filter: {{ g.filter }}; transition: filter 400ms;"></div>
+            <sc-if value="{{ g.canOpen }}"><button class="mobile-art-open" onClick="{{ g.open }}" aria-label="{{ g.openLabel }}"></button></sc-if>
             <sc-if value="{{ g.blurred }}" hint-placeholder-val="{{ false }}">
               <button onClick="{{ g.reveal }}" style="position: absolute; inset: 0; width: 100%; border: 0; background: rgba(0,0,0,0.28); color: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-family: 'Zen Kaku Gothic New', sans-serif; text-align: center; padding: 16px;">
                 <span style="font-size: 20px; letter-spacing: 0.14em; font-weight: 700;">NSFW</span>
-                <span style="font-size: 14.5px;">click to see image</span>
+                <span style="font-size: 14.5px;">Tap to reveal image</span>
               </button>
             </sc-if>
             <sc-if value="{{ g.empty }}" hint-placeholder-val="{{ true }}">
@@ -178,18 +187,18 @@
         </div>
         </sc-for>
       </div>
-      <div style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 30px;">
-        <button onClick="{{ pagePrev }}" style="padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.16); background: transparent; color: inherit; font-size: 14.5px; cursor: pointer; opacity: {{ prevOp }};" style-hover="border-color: rgba(var(--ink-rgb),0.78)">&#8592; Prev</button>
+      <div class="gallery-pagination" aria-label="Gallery pages" style="display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 30px;">
+        <button disabled="{{ prevDisabled }}" onClick="{{ pagePrev }}" style="padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.16); background: transparent; color: inherit; font-size: 14.5px; cursor: pointer; opacity: {{ prevOp }};" style-hover="border-color: rgba(var(--ink-rgb),0.78)">&#8592; Prev</button>
         <sc-for list="{{ pages }}" as="p" hint-placeholder-count="8">
-          <button onClick="{{ p.pick }}" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid {{ p.border }}; background: {{ p.bg }}; color: inherit; font-size: 14.5px; cursor: pointer; transition: all 300ms;" style-hover="border-color: rgba(var(--ink-rgb),0.78)">{{ p.n }}</button>
+          <button class="page-number" aria-label="{{ p.label }}" aria-current="{{ p.current }}" onClick="{{ p.pick }}" style="width: 40px; height: 40px; border-radius: 50%; border: 1px solid {{ p.border }}; background: {{ p.bg }}; color: inherit; font-size: 14.5px; cursor: pointer; transition: all 300ms;" style-hover="border-color: rgba(var(--ink-rgb),0.78)">{{ p.n }}</button>
         </sc-for>
-        <button onClick="{{ pageNext }}" style="padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.16); background: transparent; color: inherit; font-size: 14.5px; cursor: pointer; opacity: {{ nextOp }};" style-hover="border-color: rgba(var(--ink-rgb),0.78)">Next &#8594;</button>
+        <button disabled="{{ nextDisabled }}" onClick="{{ pageNext }}" style="padding: 9px 16px; border-radius: 999px; border: 1px solid rgba(var(--ink-rgb),0.16); background: transparent; color: inherit; font-size: 14.5px; cursor: pointer; opacity: {{ nextOp }};" style-hover="border-color: rgba(var(--ink-rgb),0.78)">Next &#8594;</button>
       </div>
     </main>
   </sc-if>
 
   <sc-if value="{{ isPricing }}" hint-placeholder-val="{{ false }}">
-    <main style="padding: 52px 44px 90px; max-width: 1000px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
+    <main class="pricing-page" style="padding: 52px 44px 90px; max-width: 1000px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
       <h1 style="margin: 0 0 6px; font-family: 'Instrument Serif', serif; font-size: 46px; font-weight: 400;">Pricing and Rules</h1>
       <p style="margin: 0 0 40px; font-size: 15px; color: rgba(var(--ink-rgb),0.8);">Final price is agreed before work begins and never changes once payment and work have started.</p>
 
@@ -293,12 +302,12 @@
   </sc-if>
 
   <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
-    <main style="padding: 52px 44px 90px; max-width: 900px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
+    <main class="contact-page" style="padding: 52px 44px 90px; max-width: 900px; animation: giz-in 560ms cubic-bezier(.22,1,.36,1) both;">
       <h1 style="margin: 0 0 6px; font-family: 'Instrument Serif', serif; font-size: 46px; font-weight: 400;">Contact me</h1>
       <p style="margin: 0 0 38px; font-size: 15px; color: rgba(var(--ink-rgb),0.8);">Discord is fastest. Say hi, I don't bite.</p>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
         <sc-for list="{{ contacts }}" as="c" hint-placeholder-count="3">
-          <a href="{{ c.href }}" target="{{ c.target }}" rel="noopener noreferrer" style="display: flex; flex-direction: column; gap: 20px; padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; transition: border-color 320ms, transform 320ms, background 320ms;" style-hover="border-color: {{ accent }}; transform: translateY(-3px); background: rgba(var(--ink-rgb),0.03)">
+<sc-if value="{{ c.isLink }}">          <a href="{{ c.href }}" target="{{ c.target }}" rel="noopener noreferrer" style="display: flex; flex-direction: column; gap: 20px; padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; transition: border-color 320ms, transform 320ms, background 320ms;" style-hover="border-color: {{ accent }}; transform: translateY(-3px); background: rgba(var(--ink-rgb),0.03)">
             <div style="width: 42px; height: 42px; border-radius: 10px; background: {{ accentSoft }}; border: 1px solid {{ accent }}; display: flex; align-items: center; justify-content: center;">
               <sc-if value="{{ c.isVr }}" hint-placeholder-val="{{ false }}">
                 <div style="width: 22px; height: 22px; background: url('uploads/vrchat-mark.png') center/contain no-repeat; opacity: 0.92;"></div>
@@ -311,13 +320,34 @@
               <span style="font-size: 15px;">{{ c.name }}</span>
               <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: rgba(var(--ink-rgb),0.8);">{{ c.handle }}</span>
             </div>
-          </a>
+          </a></sc-if><sc-if value="{{ c.isDiscord }}">          <button class="contact-copy" onClick="{{ copyDiscord }}" style="color: var(--ink); text-align: left; background: transparent; cursor: pointer; display: flex; flex-direction: column; gap: 20px; padding: 26px; border: 1px solid rgba(var(--ink-rgb),0.12); border-radius: 12px; transition: border-color 320ms, transform 320ms, background 320ms;" style-hover="border-color: {{ accent }}; transform: translateY(-3px); background: rgba(var(--ink-rgb),0.03)">
+            <div style="width: 42px; height: 42px; border-radius: 10px; background: {{ accentSoft }}; border: 1px solid {{ accent }}; display: flex; align-items: center; justify-content: center;">
+              <sc-if value="{{ c.isVr }}" hint-placeholder-val="{{ false }}">
+                <div style="width: 22px; height: 22px; background: url('uploads/vrchat-mark.png') center/contain no-repeat; opacity: 0.92;"></div>
+              </sc-if>
+              <sc-if value="{{ c.isImg }}" hint-placeholder-val="{{ false }}">
+                <div style="width: 20px; height: 20px; background: {{ c.iconBg }}; opacity: 0.92;"></div>
+              </sc-if>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 5px;">
+              <span style="font-size: 15px;">{{ c.name }}</span>
+              <span style="font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; color: rgba(var(--ink-rgb),0.8);">{{ discordLabel }}</span>
+            </div>
+          </button></sc-if>
         </sc-for>
       </div>
     </main>
   </sc-if>
 
-  <footer style="padding: 26px 44px 34px; border-top: 1px solid rgba(var(--ink-rgb),0.08); display: flex; justify-content: center; align-items: center; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; text-transform: none; color: rgba(var(--ink-rgb),0.4);">
+  <sc-if value="{{ viewerOpen }}">
+    <div class="art-viewer-backdrop" onClick="{{ closeViewer }}">
+      <div class="art-viewer" role="dialog" aria-modal="true" aria-label="Artwork preview" onClick="{{ closeViewer }}" onKeyDown="{{ viewerKeys }}">
+        <button ref="{{ closeRef }}" class="viewer-close" onClick="{{ closeViewer }}" aria-label="Close artwork preview"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
+        <img src="{{ viewerSrc }}" alt="{{ viewerAlt }}" onClick="{{ stopClick }}">
+      </div>
+    </div>
+  </sc-if>
+  <footer class="site-footer" style="padding: 26px 44px 34px; border-top: 1px solid rgba(var(--ink-rgb),0.08); display: flex; justify-content: center; align-items: center; font-family: 'Zen Kaku Gothic New', sans-serif; font-size: 14.5px; letter-spacing: 0.1em; text-transform: none; color: rgba(var(--ink-rgb),0.4);">
     <span style="color: rgba(var(--ink-rgb),0.78);">&#169; Gizunog</span>
   </footer>
   </div>
@@ -498,10 +528,26 @@ const CONTACTS = [
 class Component extends DCLogic {
   state = {
     theme: 'light', curtain: true, page: 'home', sel: 0, gallerySel: 'all', artPage: 0,
-    colW: 0, ratios: {}, hover: -1, revealed: {}
+    colW: 0, ratios: {}, hover: -1, revealed: {}, viewer: null, viewportWidth: typeof window !== 'undefined' ? window.innerWidth : 1200
   };
 
   grid = React.createRef();
+  closeButton = React.createRef();
+  loadedImages = new Set();
+  columns() { return this.state.viewportWidth <= 700 ? 2 : this.state.viewportWidth <= 1000 ? 3 : (this.props.galleryColumns ?? 4); }
+  loadVisibleArt() {
+    const tiles = this.state.page === 'art' ? this.artTiles().slice(this.state.artPage * PER_PAGE, (this.state.artPage + 1) * PER_PAGE) : this.state.page === 'home' ? STYLES[this.state.sel].tiles : [];
+    tiles.forEach(t => {
+      if (!t.img || this.loadedImages.has(t.img)) return;
+      this.loadedImages.add(t.img);
+      const im = new Image();
+      im.onload = () => this.setState(s => ({ ratios: Object.assign({}, s.ratios, { [t.img]: im.naturalHeight / im.naturalWidth }) }));
+      im.src = t.img;
+    });
+  }
+  closeViewer() { this.setState({ viewer: null }); if (this.viewerTrigger) this.viewerTrigger.focus(); }
+  openArtwork(t) { this.viewerTrigger = document.activeElement; this.setState({ viewer: t }); }
+
 
   dark() {
     return (this.state.theme || 'light') === 'dark';
@@ -511,8 +557,12 @@ class Component extends DCLogic {
     document.body.dataset.theme = this.dark() ? 'dark' : 'light';
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     this.applyTheme();
+    this.loadVisibleArt();
+    document.body.style.overflow = this.state.viewer ? 'hidden' : '';
+    if (this.state.viewer && !this.viewerActive && this.closeButton.current) this.closeButton.current.focus();
+    this.viewerActive = !!this.state.viewer;
   }
 
   componentDidMount() {
@@ -522,29 +572,23 @@ class Component extends DCLogic {
     this.applyTheme();
     this.t = setTimeout(() => this.setState({ curtain: false }), 1650);
     this.measure = () => {
+      if (window.innerWidth !== this.state.viewportWidth) this.setState({ viewportWidth: window.innerWidth, colW: 0, hover: -1 });
       const el = this.grid && this.grid.current;
       if (!el) return;
-      const cols = this.props.galleryColumns ?? 4;
+      const cols = this.columns();
       const w = (el.clientWidth - 14 * (cols - 1)) / cols;
       if (w > 0 && Math.abs(w - this.state.colW) > 1) this.setState({ colW: w });
     };
     window.addEventListener('resize', this.measure);
     this.ri = setInterval(this.measure, 400);
-    ALL_TILES.forEach(t => {
-      if (!t.img) return;
-      const im = new Image();
-      im.onload = () => this.setState(s => {
-        const r = Object.assign({}, s.ratios);
-        r[t.img] = im.naturalHeight / im.naturalWidth;
-        return { ratios: r };
-      });
-      im.src = t.img;
-    });
+    this.loadVisibleArt();
+    this.escapeViewer = e => { if (e.key === 'Escape' && this.state.viewer) this.closeViewer(); };
+    document.addEventListener('keydown', this.escapeViewer);
   }
-  componentWillUnmount() { clearTimeout(this.t); clearInterval(this.ri); window.removeEventListener('resize', this.measure); }
+  componentWillUnmount() { clearTimeout(this.t); clearInterval(this.ri); window.removeEventListener('resize', this.measure); document.removeEventListener('keydown', this.escapeViewer); document.body.style.overflow = ''; }
 
   top() { if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'smooth' }); }
-  go(page) { this.setState({ page }); this.top(); }
+  go(page) { this.setState({ page, hover: -1 }); this.top(); }
   styleBy(key) { return STYLES.find(s => s.key === key) || STYLES[0]; }
 
   tileFrom(t, idx, forceH) {
@@ -555,12 +599,12 @@ class Component extends DCLogic {
     const full = natural ? Math.max(natural, forceH || 0) + 'px' : h;
     return {
       bg: t.img ? 'url("' + t.img + '") ' + (t.pos || 'center') + '/cover no-repeat' + (t.paper ? ' #fff' : '') : 'transparent',
-      empty: !t.img, note: t.note,
+      empty: !t.img, note: t.note, canOpen: !!t.img && (!NSFW.includes(t.img) || !!this.state.revealed[t.img]), openLabel: 'View artwork: ' + t.note, open: () => this.openArtwork(t),
       blurred: !!t.img && NSFW.includes(t.img) && !this.state.revealed[t.img],
       filter: t.img && NSFW.includes(t.img) && !this.state.revealed[t.img] ? 'blur(26px)' : 'none',
       reveal: () => this.setState(s => ({ revealed: Object.assign({}, s.revealed, { [t.img]: true }) })),
-      height: this.state.hover === idx ? full : h,
-      enter: () => this.setState({ hover: idx }),
+      height: this.state.viewportWidth <= 700 && natural ? natural + 'px' : this.state.hover === idx ? full : h,
+      enter: () => { if (this.state.viewportWidth > 700) this.setState({ hover: idx }); },
       leave: () => this.setState({ hover: -1 })
     };
   }
@@ -571,7 +615,7 @@ class Component extends DCLogic {
   }
 
   gallerySections() {
-    const cols = this.props.galleryColumns ?? 4;
+    const cols = this.columns();
     const all = this.artTiles();
     const start = (this.state.artPage || 0) * PER_PAGE;
     const tiles = all.slice(start, start + PER_PAGE);
@@ -606,7 +650,10 @@ class Component extends DCLogic {
 
     return {
       curtain: st.curtain && (this.props.showWelcome ?? true),
-      galleryCols: this.props.galleryColumns ?? 4,
+      galleryCols: this.columns(),
+      viewerOpen: !!st.viewer, viewerSrc: st.viewer ? st.viewer.img : '', viewerAlt: st.viewer ? st.viewer.note : '',
+      closeRef: this.closeButton, closeViewer: () => this.closeViewer(), stopClick: e => e.stopPropagation(),
+      viewerKeys: e => { if (e.key === 'Tab') { e.preventDefault(); if (this.closeButton.current) this.closeButton.current.focus(); } },
       accent: S.accent.replace(/oklch\(0\.\d+/, m => {
         const l = parseFloat(m.slice(6));
         return 'oklch(' + (this.dark() ? Math.min(0.86, l + 0.22) : Math.max(0.34, l - 0.1)).toFixed(2);
@@ -637,7 +684,8 @@ class Component extends DCLogic {
       goHome: () => this.go('home'),
 
       nav: NAV.map(([key, label]) => ({
-        label,
+        label, short: {home: 'Home', art: 'My art', pricing: 'Pricing', contact: 'Contact'}[key], current: st.page === key ? 'page' : undefined,
+        icon: {home: 'M3 10l9-7 9 7M5 9v12h5v-7h4v7h5V9', art: 'M4 4h16v16H4zM4 16l5-5 4 4 3-3 4 4M8 8h.01', pricing: 'M7 3h10v18l-3-2-2 2-2-2-3 2zM10 7h4M10 11h4M10 15h2', contact: 'M4 4h16v13H9l-5 4zM8 8h8M8 12h5'}[key],
         color: st.page === key ? S.accent : 'rgba(var(--ink-rgb),0.8)',
         pill: st.page === key ? soft(S.accent) : 'transparent',
         line: st.page === key ? S.accent : 'transparent',
@@ -645,7 +693,7 @@ class Component extends DCLogic {
       })),
 
       styles: STYLES.map((s, i) => ({
-        key: s.key, label: s.label, dim: i === st.sel ? 1 : 0.26,
+        key: s.key, label: s.label, short: ['Half body', 'Full body', 'Icons'][i], selected: i === st.sel, dim: i === st.sel ? 1 : 0.26,
         pick: () => this.setState({ sel: i })
       })),
       wheel: 'translateY(' + (-st.sel * 92) + 'px)',
@@ -671,19 +719,25 @@ class Component extends DCLogic {
       gridRef: this.grid,
       sections: this.gallerySections(),
       pages: Array.from({ length: Math.ceil(this.artTiles().length / PER_PAGE) }, (_, i) => ({
-        n: i + 1,
+        n: i + 1, label: 'Gallery page ' + (i + 1), current: i === st.artPage ? 'page' : undefined,
         bg: i === st.artPage ? soft(S.accent) : 'transparent',
         border: i === st.artPage ? S.accent : 'rgba(var(--ink-rgb),0.16)',
         pick: () => this.goPage(i)
       })),
+      prevDisabled: st.artPage === 0, nextDisabled: st.artPage >= Math.ceil(this.artTiles().length / PER_PAGE) - 1,
       pagePrev: () => this.goPage(st.artPage - 1),
       pageNext: () => this.goPage(st.artPage + 1),
       prevOp: st.artPage === 0 ? 0.35 : 1,
       nextOp: st.artPage >= Math.ceil(this.artTiles().length / PER_PAGE) - 1 ? 0.35 : 1,
 
+      discordLabel: st.discordCopied ? 'Copied: gizunog' : 'gizunog · copy username',
+      copyDiscord: async () => {
+        try { await navigator.clipboard.writeText('gizunog'); this.setState({ discordCopied: true }); }
+        catch (e) { this.setState({ discordCopied: false }); }
+      },
       contacts: CONTACTS.map(c => ({
         name: c.name, handle: c.handle, href: c.url || '#', target: c.url ? '_blank' : '_self',
-        isVr: c.name === 'VRChat', isImg: c.name !== 'VRChat',
+        isLink: !!c.url, isDiscord: c.name === 'Discord', isVr: c.name === 'VRChat', isImg: c.name !== 'VRChat',
         iconBg: 'url("' + c.icon + '") center/contain no-repeat'
       })),
       animA: st.sel % 2 === 0 ? 'giz-in' : 'giz-in-alt',
